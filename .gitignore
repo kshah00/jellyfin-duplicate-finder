@@ -1,0 +1,8 @@
+backend/target/
+backend/benchmark-results.md
+frontend/node_modules/
+frontend/dist/
+samples/library-100000.csv
+.DS_Store
+.idea/
+*.iml
