@@ -56,6 +56,22 @@ mvn -q compile exec:java -Dexec.args="1000 10000 100000"     # writes benchmark-
 mvn -q compile exec:java -Dexec.mainClass=com.jellydupes.bench.GenerateDatasetsMain -Dexec.args="../samples"
 ```
 
+### Deploy to AWS Elastic Beanstalk
+
+Live at **http://jellyfin-dupes.ap-south-1.elasticbeanstalk.com**. It runs on a single t3.small instance in ap-south-1 on the Corretto 21 platform.
+
+`deploy/build-bundle.sh` builds the React UI into the jar's `static/` folder, so one Java process serves both the UI and `/api` from the same origin. It then zips the jar together with:
+- a `Procfile` that starts the app on port 5000 behind nginx;
+- an nginx override that allows 64 MB uploads and a 300 s timeout for long benchmarks.
+
+```bash
+./deploy/build-bundle.sh                 # -> deploy/bundle.zip
+eb deploy                                # uses .elasticbeanstalk/config.yml (artifact: deploy/bundle.zip)
+eb terminate jellyfin-dupes              # tear down to stop billing
+```
+
+The first-time setup was `eb init jellyfin-duplicate-finder -p corretto-21 --region ap-south-1`, followed by `eb create jellyfin-dupes --single --instance_type t3.small --cname jellyfin-dupes`.
+
 ---
 
 ## How it works

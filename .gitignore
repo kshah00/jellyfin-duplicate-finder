@@ -6,3 +6,13 @@ samples/library-100000.csv
 .DS_Store
 .idea/
 *.iml
+deploy/out/
+deploy/bundle.zip
+.elasticbeanstalk/*
+!.elasticbeanstalk/config.yml
+backend/src/main/resources/static/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
